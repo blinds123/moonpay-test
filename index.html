@@ -34,60 +34,156 @@
         .checkout-header {
             background: linear-gradient(135deg, #8247e5 0%, #6c3cb4 100%);
             color: white;
-            padding: 24px;
+            padding: 32px 24px;
             text-align: center;
         }
 
         .checkout-header h1 {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
         }
 
         .checkout-header p {
             opacity: 0.9;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
         }
 
         .wallet-info {
             background: rgba(255,255,255,0.15);
-            border-radius: 10px;
-            padding: 12px;
+            border-radius: 12px;
+            padding: 16px;
             margin-top: 16px;
             font-family: monospace;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             word-break: break-all;
         }
 
         .wallet-label {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             opacity: 0.8;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 600;
         }
 
         .payment-methods {
             display: flex;
             justify-content: center;
-            gap: 16px;
-            margin-top: 16px;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .payment-methods span {
             background: rgba(255,255,255,0.2);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
         }
 
-        .widget-wrapper {
-            padding: 0;
-            background: #f8f9fa;
+        .checkout-body {
+            padding: 24px;
         }
 
-        #mercuryo-widget {
-            width: 100%;
-            height: 620px;
+        .amount-section {
+            margin-bottom: 24px;
+        }
+
+        .amount-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .amount-input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .amount-input-wrapper:focus-within {
+            border-color: #8247e5;
+        }
+
+        .currency-prefix {
+            background: #f5f5f5;
+            padding: 16px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .amount-input {
+            flex: 1;
             border: none;
+            padding: 16px;
+            font-size: 1.2rem;
+            outline: none;
+        }
+
+        .receive-estimate {
+            background: #f8f4ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .receive-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .receive-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #8247e5;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #8247e5 0%, #6c3cb4 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(130, 71, 229, 0.4);
+        }
+
+        .checkout-btn:active {
+            transform: translateY(0);
+        }
+
+        .fee-info {
+            background: #fff9e6;
+            border: 1px solid #ffe58f;
+            padding: 16px;
+            margin-top: 20px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #8a6d3b;
+        }
+
+        .fee-info ul {
+            list-style: none;
+            margin-top: 8px;
+        }
+
+        .fee-info li {
+            padding: 4px 0;
         }
 
         .powered-by {
@@ -103,36 +199,14 @@
             text-decoration: none;
         }
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #8247e5;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 16px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .fee-info {
-            background: #e8f4fd;
-            border: 1px solid #b8daff;
-            padding: 12px;
-            margin: 12px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            color: #004085;
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            color: #28a745;
+            font-size: 0.85rem;
         }
 
         @media (max-width: 480px) {
@@ -149,148 +223,163 @@
     <div class="checkout-container">
         <div class="checkout-header">
             <h1>💳 Buy POL with Card</h1>
-            <p>Instant crypto purchase - Sent directly to merchant</p>
+            <p>Instant crypto purchase via credit card</p>
 
             <div class="wallet-info">
-                <div class="wallet-label">Receiving Wallet (Polygon Network):</div>
-                0xE5173e7c3089bD89cd1341b637b8e1951745ED5C
+                <div class="wallet-label">🔒 Funds sent directly to:</div>
+                <span id="display-wallet">0xE5173e7c3089bD89cd1341b637b8e1951745ED5C</span>
             </div>
 
             <div class="payment-methods">
-                <span>💳 Visa/MC</span>
-                <span>🏦 Bank</span>
+                <span>💳 Visa</span>
+                <span>💳 Mastercard</span>
                 <span>🍎 Apple Pay</span>
+                <span>🏦 Bank</span>
             </div>
         </div>
 
-        <div class="fee-info">
-            <strong>📋 Purchase Info:</strong><br>
-            • Fee: 3.95% (Mercuryo)<br>
-            • Min: €20 | Max: €699 (unverified)<br>
-            • KYC: Required for amounts over €699
-        </div>
-
-        <div class="widget-wrapper">
-            <div id="loading" class="loading">
-                <div class="loading-spinner"></div>
-                <p>Loading secure checkout...</p>
+        <div class="checkout-body">
+            <div class="amount-section">
+                <label>Amount to Pay</label>
+                <div class="amount-input-wrapper">
+                    <span class="currency-prefix">USD</span>
+                    <input type="number" id="amount-input" class="amount-input" value="50" min="20" max="700" step="10">
+                </div>
             </div>
 
-            <iframe
-                id="mercuryo-widget"
-                style="display: none;"
-                allow="accelerometer; autoplay; camera; gyroscope; payment"
-                loading="lazy">
-            </iframe>
+            <div class="receive-estimate">
+                <div class="receive-label">You will receive approximately:</div>
+                <div class="receive-amount" id="receive-amount">~96.15 POL</div>
+            </div>
+
+            <button class="checkout-btn" onclick="openCheckout()">
+                🚀 Continue to Payment
+            </button>
+
+            <div class="secure-badge">
+                <span>🔐</span>
+                <span>Secure checkout powered by Mercuryo</span>
+            </div>
+
+            <div class="fee-info">
+                <strong>ℹ️ Purchase Info:</strong>
+                <ul>
+                    <li>• Processing fee: 3.95%</li>
+                    <li>• Min: $20 | Max: $700 (no ID needed)</li>
+                    <li>• Over $700: ID verification required</li>
+                    <li>• Network: Polygon (MATIC)</li>
+                </ul>
+            </div>
         </div>
 
         <div class="powered-by">
-            Powered by <a href="https://mercuryo.io" target="_blank">Mercuryo</a> via SimpleSwap |
-            API sourced using Jared's method
+            Powered by <a href="https://mercuryo.io" target="_blank">Mercuryo</a> |
+            Widget credentials via SimpleSwap (Jared's method)
         </div>
     </div>
 
     <script>
         // ============================================================
-        // MERCURYO WIDGET - Using SimpleSwap's exposed credentials
+        // MERCURYO CHECKOUT - Using SimpleSwap's exposed credentials
+        // Opens in popup window to bypass X-Frame-Options restrictions
         //
         // Widget ID: 30c56e3c-7ac2-4d06-8ff3-026cf8d8b6f6
-        // Secret: f6D9TLBlEwy45Daz2JWA (for signature generation)
-        //
-        // Your Polygon wallet address is pre-filled!
+        // Secret: f6D9TLBlEwy45Daz2JWA
         // ============================================================
 
         const CONFIG = {
-            // SimpleSwap's Mercuryo Widget ID (exposed in their frontend)
             widgetId: '30c56e3c-7ac2-4d06-8ff3-026cf8d8b6f6',
-
-            // SimpleSwap's Mercuryo Secret (for signature)
             secret: 'f6D9TLBlEwy45Daz2JWA',
-
-            // YOUR wallet address (Polygon network)
             walletAddress: '0xE5173e7c3089bD89cd1341b637b8e1951745ED5C',
-
-            // Currency settings
             fiatCurrency: 'USD',
-            cryptoCurrency: 'MATIC', // Mercuryo uses MATIC for Polygon
-
-            // Default amount
-            fiatAmount: 50
+            cryptoCurrency: 'MATIC',
+            network: 'POLYGON'
         };
 
-        // Generate Mercuryo signature (v2 format)
+        // Approximate POL price (update as needed)
+        const POL_PRICE_USD = 0.52;
+
+        // Generate Mercuryo signature
         function generateSignature(address, secret) {
-            // Mercuryo v2 signature format: SHA512 of address + secret
             const signatureString = address + secret;
             const hash = CryptoJS.SHA512(signatureString).toString();
             return 'v2:' + hash;
         }
 
-        // Build Mercuryo widget URL
-        function buildMercuryoUrl() {
+        // Update receive estimate
+        function updateEstimate() {
+            const amount = parseFloat(document.getElementById('amount-input').value) || 50;
+            const afterFee = amount * 0.9605; // 3.95% fee
+            const polAmount = (afterFee / POL_PRICE_USD).toFixed(2);
+            document.getElementById('receive-amount').textContent = `~${polAmount} POL`;
+        }
+
+        // Build Mercuryo URL
+        function buildMercuryoUrl(fiatAmount) {
             const signature = generateSignature(CONFIG.walletAddress, CONFIG.secret);
 
             const params = new URLSearchParams({
                 widget_id: CONFIG.widgetId,
                 type: 'buy',
                 currency: CONFIG.cryptoCurrency,
-                network: 'POLYGON',
+                network: CONFIG.network,
                 fiat_currency: CONFIG.fiatCurrency,
-                fiat_amount: CONFIG.fiatAmount,
+                fiat_amount: fiatAmount,
                 address: CONFIG.walletAddress,
                 signature: signature,
-                hide_address: 'true', // Hide address input since we pre-fill it
-                fix_address: 'true',  // Lock the address
-                fix_currency: 'true', // Lock to MATIC
-                fix_fiat_currency: 'false',
-                fix_fiat_amount: 'false',
-                theme: 'light'
+                hide_address: 'true',
+                fix_address: 'true',
+                fix_currency: 'true',
+                theme: 'light',
+                return_url: window.location.href
             });
 
             return `https://exchange.mercuryo.io/?${params.toString()}`;
         }
 
-        // Initialize widget
-        function initWidget() {
-            const iframe = document.getElementById('mercuryo-widget');
-            const loading = document.getElementById('loading');
+        // Open checkout in popup/new tab
+        function openCheckout() {
+            const amount = document.getElementById('amount-input').value || 50;
 
-            const widgetUrl = buildMercuryoUrl();
-            console.log('Mercuryo Widget URL:', widgetUrl);
+            if (amount < 20) {
+                alert('Minimum purchase amount is $20');
+                return;
+            }
 
-            iframe.src = widgetUrl;
+            if (amount > 700) {
+                const proceed = confirm('Purchases over $700 require ID verification. Continue?');
+                if (!proceed) return;
+            }
 
-            iframe.onload = function() {
-                loading.style.display = 'none';
-                iframe.style.display = 'block';
-            };
+            const url = buildMercuryoUrl(amount);
+            console.log('Opening Mercuryo checkout:', url);
 
-            // Fallback in case onload doesn't fire
-            setTimeout(() => {
-                loading.style.display = 'none';
-                iframe.style.display = 'block';
-            }, 3000);
+            // Open in popup window (bypasses iframe restrictions)
+            const width = 500;
+            const height = 700;
+            const left = (screen.width - width) / 2;
+            const top = (screen.height - height) / 2;
+
+            const popup = window.open(
+                url,
+                'MercuryoCheckout',
+                `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
+            );
+
+            if (!popup || popup.closed) {
+                // Popup blocked - open in new tab instead
+                window.open(url, '_blank');
+            }
         }
 
-        // Listen for Mercuryo events
-        window.addEventListener('message', function(event) {
-            if (event.origin.includes('mercuryo')) {
-                console.log('Mercuryo Event:', event.data);
+        // Event listeners
+        document.getElementById('amount-input').addEventListener('input', updateEstimate);
+        document.addEventListener('DOMContentLoaded', updateEstimate);
 
-                if (event.data && event.data.status === 'paid') {
-                    console.log('Payment successful!');
-                    // Handle successful payment
-                }
-            }
-        });
-
-        // Start when page loads
-        document.addEventListener('DOMContentLoaded', initWidget);
-
-        console.log('=== Mercuryo Checkout ===');
+        console.log('=== Mercuryo Checkout (Popup Mode) ===');
         console.log('Widget ID:', CONFIG.widgetId);
         console.log('Wallet:', CONFIG.walletAddress);
-        console.log('Currency: MATIC (Polygon)');
+        console.log('Network: Polygon');
     </script>
 </body>
 </html>
