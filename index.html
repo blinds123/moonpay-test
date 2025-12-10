@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoonPay Checkout Test - POL (Polygon)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #8247e5 0%, #6c3cb4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .checkout-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            overflow: hidden;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .checkout-header {
+            background: linear-gradient(135deg, #8247e5 0%, #6c3cb4 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .checkout-header h1 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .checkout-header h1 img {
+            height: 28px;
+            width: 28px;
+        }
+
+        .checkout-header p {
+            opacity: 0.9;
+            font-size: 0.85rem;
+        }
+
+        .wallet-info {
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 16px;
+            font-family: monospace;
+            font-size: 0.7rem;
+            word-break: break-all;
+        }
+
+        .wallet-label {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-bottom: 4px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .payment-methods span {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+        }
+
+        .widget-wrapper {
+            padding: 0;
+            background: #f8f9fa;
+        }
+
+        #moonpay-widget {
+            width: 100%;
+            height: 580px;
+            border: none;
+        }
+
+        .powered-by {
+            text-align: center;
+            padding: 16px;
+            background: #1a1a2e;
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .powered-by a {
+            color: #8247e5;
+            text-decoration: none;
+        }
+
+        .test-badge {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .kyc-note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 12px;
+            margin: 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: #856404;
+        }
+
+        .kyc-note strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 480px) {
+            .checkout-container {
+                border-radius: 0;
+            }
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h1>
+                <img src="https://static.moonpay.com/widget/currencies/pol_polygon.svg" alt="POL" onerror="this.style.display='none'">
+                Pay with Card
+                <span class="test-badge">TEST</span>
+            </h1>
+            <p>Buy POL (Polygon) - Sent directly to merchant wallet</p>
+
+            <div class="wallet-info">
+                <div class="wallet-label">Receiving Wallet (Polygon Network):</div>
+                0xE5173e7c3089bD89cd1341b637b8e1951745ED5C
+            </div>
+
+            <div class="payment-methods">
+                <span>💳 Card</span>
+                <span>🍎 Apple Pay</span>
+                <span>🅖 Google Pay</span>
+            </div>
+        </div>
+
+        <div class="kyc-note">
+            <strong>⚠️ MoonPay KYC Requirements:</strong>
+            • Under €150/month: Email + phone only<br>
+            • Over €150/month: ID verification required<br>
+            • Minimum purchase: ~$20 USD
+        </div>
+
+        <div class="widget-wrapper">
+            <!--
+            ============================================================
+            MOONPAY WIDGET TEST
+
+            Using SimpleSwap's exposed MoonPay API key
+            API Key: pk_live_0DHfvohhA2rxEgof35W5yFEhAiiMygx
+
+            Currency: pol_polygon (POL on Polygon network)
+            Wallet: 0xE5173e7c3089bD89cd1341b637b8e1951745ED5C
+            ============================================================
+            -->
+            <iframe
+                id="moonpay-widget"
+                src="https://buy.moonpay.com?apiKey=pk_live_0DHfvohhA2rxEgof35W5yFEhAiiMygx&currencyCode=pol_polygon&walletAddress=0xE5173e7c3089bD89cd1341b637b8e1951745ED5C&baseCurrencyCode=usd&baseCurrencyAmount=50&colorCode=%238247e5"
+                allow="accelerometer; autoplay; camera; gyroscope; payment"
+                loading="lazy">
+            </iframe>
+        </div>
+
+        <div class="powered-by">
+            Widget powered by <a href="https://moonpay.com" target="_blank">MoonPay</a> |
+            API key sourced via API hacking (Jared's method)
+        </div>
+    </div>
+
+    <script>
+        // Log MoonPay events for debugging
+        window.addEventListener('message', function(event) {
+            if (event.origin.includes('moonpay')) {
+                console.log('MoonPay Event:', event.data);
+            }
+        });
+
+        console.log('MoonPay Widget Test Loaded');
+        console.log('Currency: pol_polygon (POL on Polygon)');
+        console.log('Wallet: 0xE5173e7c3089bD89cd1341b637b8e1951745ED5C');
+        console.log('API Key: pk_live_0DHfvohhA2rxEgof35W5yFEhAiiMygx (from SimpleSwap)');
+    </script>
+</body>
+</html>
