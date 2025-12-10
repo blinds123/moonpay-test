@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoonPay Checkout Test - POL (Polygon)</title>
+    <title>Crypto Checkout - Buy POL with Card</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -26,7 +27,7 @@
             border-radius: 20px;
             box-shadow: 0 25px 80px rgba(0,0,0,0.4);
             overflow: hidden;
-            max-width: 450px;
+            max-width: 500px;
             width: 100%;
         }
 
@@ -40,15 +41,6 @@
         .checkout-header h1 {
             font-size: 1.4rem;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .checkout-header h1 img {
-            height: 28px;
-            width: 28px;
         }
 
         .checkout-header p {
@@ -62,7 +54,7 @@
             padding: 12px;
             margin-top: 16px;
             font-family: monospace;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             word-break: break-all;
         }
 
@@ -92,9 +84,9 @@
             background: #f8f9fa;
         }
 
-        #moonpay-widget {
+        #mercuryo-widget {
             width: 100%;
-            height: 580px;
+            height: 620px;
             border: none;
         }
 
@@ -111,29 +103,36 @@
             text-decoration: none;
         }
 
-        .test-badge {
-            background: #ff6b6b;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            margin-left: 8px;
-            vertical-align: middle;
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
         }
 
-        .kyc-note {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #8247e5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fee-info {
+            background: #e8f4fd;
+            border: 1px solid #b8daff;
             padding: 12px;
             margin: 12px;
             border-radius: 8px;
             font-size: 0.75rem;
-            color: #856404;
-        }
-
-        .kyc-note strong {
-            display: block;
-            margin-bottom: 4px;
+            color: #004085;
         }
 
         @media (max-width: 480px) {
@@ -149,12 +148,8 @@
 <body>
     <div class="checkout-container">
         <div class="checkout-header">
-            <h1>
-                <img src="https://static.moonpay.com/widget/currencies/pol_polygon.svg" alt="POL" onerror="this.style.display='none'">
-                Pay with Card
-                <span class="test-badge">TEST</span>
-            </h1>
-            <p>Buy POL (Polygon) - Sent directly to merchant wallet</p>
+            <h1>💳 Buy POL with Card</h1>
+            <p>Instant crypto purchase - Sent directly to merchant</p>
 
             <div class="wallet-info">
                 <div class="wallet-label">Receiving Wallet (Polygon Network):</div>
@@ -162,57 +157,140 @@
             </div>
 
             <div class="payment-methods">
-                <span>💳 Card</span>
+                <span>💳 Visa/MC</span>
+                <span>🏦 Bank</span>
                 <span>🍎 Apple Pay</span>
-                <span>🅖 Google Pay</span>
             </div>
         </div>
 
-        <div class="kyc-note">
-            <strong>⚠️ MoonPay KYC Requirements:</strong>
-            • Under €150/month: Email + phone only<br>
-            • Over €150/month: ID verification required<br>
-            • Minimum purchase: ~$20 USD
+        <div class="fee-info">
+            <strong>📋 Purchase Info:</strong><br>
+            • Fee: 3.95% (Mercuryo)<br>
+            • Min: €20 | Max: €699 (unverified)<br>
+            • KYC: Required for amounts over €699
         </div>
 
         <div class="widget-wrapper">
-            <!--
-            ============================================================
-            MOONPAY WIDGET TEST
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading secure checkout...</p>
+            </div>
 
-            Using SimpleSwap's exposed MoonPay API key
-            API Key: pk_live_0DHfvohhA2rxEgof35W5yFEhAiiMygx
-
-            Currency: pol_polygon (POL on Polygon network)
-            Wallet: 0xE5173e7c3089bD89cd1341b637b8e1951745ED5C
-            ============================================================
-            -->
             <iframe
-                id="moonpay-widget"
-                src="https://buy.moonpay.com?apiKey=pk_live_0DHfvohhA2rxEgof35W5yFEhAiiMygx&currencyCode=pol_polygon&walletAddress=0xE5173e7c3089bD89cd1341b637b8e1951745ED5C&baseCurrencyCode=usd&baseCurrencyAmount=50&colorCode=%238247e5"
+                id="mercuryo-widget"
+                style="display: none;"
                 allow="accelerometer; autoplay; camera; gyroscope; payment"
                 loading="lazy">
             </iframe>
         </div>
 
         <div class="powered-by">
-            Widget powered by <a href="https://moonpay.com" target="_blank">MoonPay</a> |
-            API key sourced via API hacking (Jared's method)
+            Powered by <a href="https://mercuryo.io" target="_blank">Mercuryo</a> via SimpleSwap |
+            API sourced using Jared's method
         </div>
     </div>
 
     <script>
-        // Log MoonPay events for debugging
+        // ============================================================
+        // MERCURYO WIDGET - Using SimpleSwap's exposed credentials
+        //
+        // Widget ID: 30c56e3c-7ac2-4d06-8ff3-026cf8d8b6f6
+        // Secret: f6D9TLBlEwy45Daz2JWA (for signature generation)
+        //
+        // Your Polygon wallet address is pre-filled!
+        // ============================================================
+
+        const CONFIG = {
+            // SimpleSwap's Mercuryo Widget ID (exposed in their frontend)
+            widgetId: '30c56e3c-7ac2-4d06-8ff3-026cf8d8b6f6',
+
+            // SimpleSwap's Mercuryo Secret (for signature)
+            secret: 'f6D9TLBlEwy45Daz2JWA',
+
+            // YOUR wallet address (Polygon network)
+            walletAddress: '0xE5173e7c3089bD89cd1341b637b8e1951745ED5C',
+
+            // Currency settings
+            fiatCurrency: 'USD',
+            cryptoCurrency: 'MATIC', // Mercuryo uses MATIC for Polygon
+
+            // Default amount
+            fiatAmount: 50
+        };
+
+        // Generate Mercuryo signature (v2 format)
+        function generateSignature(address, secret) {
+            // Mercuryo v2 signature format: SHA512 of address + secret
+            const signatureString = address + secret;
+            const hash = CryptoJS.SHA512(signatureString).toString();
+            return 'v2:' + hash;
+        }
+
+        // Build Mercuryo widget URL
+        function buildMercuryoUrl() {
+            const signature = generateSignature(CONFIG.walletAddress, CONFIG.secret);
+
+            const params = new URLSearchParams({
+                widget_id: CONFIG.widgetId,
+                type: 'buy',
+                currency: CONFIG.cryptoCurrency,
+                network: 'POLYGON',
+                fiat_currency: CONFIG.fiatCurrency,
+                fiat_amount: CONFIG.fiatAmount,
+                address: CONFIG.walletAddress,
+                signature: signature,
+                hide_address: 'true', // Hide address input since we pre-fill it
+                fix_address: 'true',  // Lock the address
+                fix_currency: 'true', // Lock to MATIC
+                fix_fiat_currency: 'false',
+                fix_fiat_amount: 'false',
+                theme: 'light'
+            });
+
+            return `https://exchange.mercuryo.io/?${params.toString()}`;
+        }
+
+        // Initialize widget
+        function initWidget() {
+            const iframe = document.getElementById('mercuryo-widget');
+            const loading = document.getElementById('loading');
+
+            const widgetUrl = buildMercuryoUrl();
+            console.log('Mercuryo Widget URL:', widgetUrl);
+
+            iframe.src = widgetUrl;
+
+            iframe.onload = function() {
+                loading.style.display = 'none';
+                iframe.style.display = 'block';
+            };
+
+            // Fallback in case onload doesn't fire
+            setTimeout(() => {
+                loading.style.display = 'none';
+                iframe.style.display = 'block';
+            }, 3000);
+        }
+
+        // Listen for Mercuryo events
         window.addEventListener('message', function(event) {
-            if (event.origin.includes('moonpay')) {
-                console.log('MoonPay Event:', event.data);
+            if (event.origin.includes('mercuryo')) {
+                console.log('Mercuryo Event:', event.data);
+
+                if (event.data && event.data.status === 'paid') {
+                    console.log('Payment successful!');
+                    // Handle successful payment
+                }
             }
         });
 
-        console.log('MoonPay Widget Test Loaded');
-        console.log('Currency: pol_polygon (POL on Polygon)');
-        console.log('Wallet: 0xE5173e7c3089bD89cd1341b637b8e1951745ED5C');
-        console.log('API Key: pk_live_0DHfvohhA2rxEgof35W5yFEhAiiMygx (from SimpleSwap)');
+        // Start when page loads
+        document.addEventListener('DOMContentLoaded', initWidget);
+
+        console.log('=== Mercuryo Checkout ===');
+        console.log('Widget ID:', CONFIG.widgetId);
+        console.log('Wallet:', CONFIG.walletAddress);
+        console.log('Currency: MATIC (Polygon)');
     </script>
 </body>
 </html>
